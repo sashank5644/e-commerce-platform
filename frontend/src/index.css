@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Define custom properties for colors */
+:root {
+  --primary: #1d4ed8; /* Vibrant blue */
+  --accent: #f472b6; /* Soft coral */
+  --dark: #1f2937; /* Dark gray */
+  --light-gray: #f3f4f6; /* Light gray background */
+  --white: #ffffff;
+  --gray: #6b7280; /* Medium gray for text */
+}
+
+/* Global styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--light-gray);
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.animate-fade-in-delay {
+  animation: fadeIn 1s ease-in-out 0.3s;
+}
