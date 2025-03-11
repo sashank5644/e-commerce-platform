@@ -8,6 +8,7 @@ const Footer = () => {
         color: '#ffffff',
         padding: '3rem 0',
         marginTop: 'auto',
+        flexShrink: 0, // Prevent footer from shrinking
       }}
     >
       <div

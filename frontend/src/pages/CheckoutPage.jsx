@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { createOrder } from '../store/slices/orderSlice';
+import Footer from './Footer'; // Import Footer
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const CheckoutPage = () => {
     phone: '',
     paymentMethod: 'credit_card',
   });
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,7 +32,7 @@ const CheckoutPage = () => {
     }
 
     const shippingAddress = { fullName, addressLine1, city, state, postalCode, phone };
-    setLoading(true); // Set loading to true when submission starts
+    setLoading(true);
     try {
       await dispatch(createOrder({ shippingAddress, paymentMethod })).unwrap();
       navigate('/orders');
@@ -39,7 +40,7 @@ const CheckoutPage = () => {
       console.error('Order submission error:', error);
       alert('Failed to place order: ' + (error.message || 'Unknown error'));
     } finally {
-      setLoading(false); // Reset loading state when done
+      setLoading(false);
     }
   };
 
@@ -48,355 +49,365 @@ const CheckoutPage = () => {
   return (
     <div
       style={{
-        maxWidth: '1280px',
-        margin: '0 auto',
-        padding: '3rem 2rem',
-        backgroundColor: '#f5f7fa',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh', // Ensure full viewport height
       }}
     >
-      <h1
-        style={{
-          fontSize: '2.5rem',
-          fontWeight: 700,
-          color: '#1a2e44',
-          marginBottom: '3rem',
-          textAlign: 'center',
-          position: 'relative',
-          animation: 'fadeIn 0.8s ease-in',
-        }}
-      >
-        Checkout
-        <span
-          style={{
-            position: 'absolute',
-            bottom: '-10px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '80px',
-            height: '4px',
-            backgroundColor: '#ff4d87',
-            borderRadius: '2px',
-          }}
-        />
-      </h1>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '2.5rem',
-        }}
-      >
+      <div style={{ flex: '1 0 auto' }}> {/* Main content grows to fill space */}
         <div
           style={{
-            backgroundColor: '#ffffff',
-            padding: '2rem',
-            borderRadius: '15px',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
-            animation: 'fadeIn 0.8s ease-in',
+            maxWidth: '1280px',
+            margin: '0 auto',
+            padding: '3rem 2rem',
+            backgroundColor: '#f5f7fa',
           }}
         >
-          <h2
+          <h1
             style={{
-              fontSize: '1.5rem',
-              fontWeight: 600,
+              fontSize: '2.5rem',
+              fontWeight: 700,
               color: '#1a2e44',
-              marginBottom: '1.5rem',
+              marginBottom: '3rem',
+              textAlign: 'center',
+              position: 'relative',
+              animation: 'fadeIn 0.8s ease-in',
             }}
           >
-            Billing Information
-          </h2>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
+            Checkout
+            <span
+              style={{
+                position: 'absolute',
+                bottom: '-10px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '80px',
+                height: '4px',
+                backgroundColor: '#ff4d87',
+                borderRadius: '2px',
+              }}
+            />
+          </h1>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '2.5rem',
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: '#ffffff',
+                padding: '2rem',
+                borderRadius: '15px',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
+                animation: 'fadeIn 0.8s ease-in',
+              }}
+            >
+              <h2
                 style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                Address Line 1
-              </label>
-              <input
-                type="text"
-                name="addressLine1"
-                value={formData.addressLine1}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                City
-              </label>
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                State
-              </label>
-              <input
-                type="text"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                Postal Code
-              </label>
-              <input
-                type="text"
-                name="postalCode"
-                value={formData.postalCode}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
-                Payment Method
-              </label>
-              <select
-                name="paymentMethod"
-                value={formData.paymentMethod}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '0.8rem',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                  backgroundColor: '#ffffff',
+                  fontSize: '1.5rem',
+                  fontWeight: 600,
                   color: '#1a2e44',
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = '#2a5298';
-                  e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                  marginBottom: '1.5rem',
                 }}
               >
-                <option value="credit_card">Credit Card</option>
-                <option value="paypal">PayPal</option>
-              </select>
+                Billing Information
+              </h2>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    Address Line 1
+                  </label>
+                  <input
+                    type="text"
+                    name="addressLine1"
+                    value={formData.addressLine1}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    State
+                  </label>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', color: '#666', fontWeight: 500, marginBottom: '0.5rem' }}>
+                    Payment Method
+                  </label>
+                  <select
+                    name="paymentMethod"
+                    value={formData.paymentMethod}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      boxShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.05)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                      backgroundColor: '#ffffff',
+                      color: '#1a2e44',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2a5298';
+                      e.target.style.boxShadow = '0 0 5px rgba(42, 82, 152, 0.3)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'inset 0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }}
+                  >
+                    <option value="credit_card">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                  </select>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            padding: '2rem',
-            borderRadius: '15px',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
-            animation: 'fadeIn 0.8s ease-in',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: 600,
-              color: '#1a2e44',
-              marginBottom: '1.5rem',
-            }}
-          >
-            Order Summary
-          </h2>
-          <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
-            Total: <span style={{ color: '#2a5298', fontWeight: 600 }}>${total.toFixed(2)}</span>
-          </p>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            disabled={loading} // Disable button while loading
-            style={{
-              display: 'flex', // Use flex to align spinner and text
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              background: 'linear-gradient(90deg, #2a5298, #1e3c72)',
-              color: '#ffffff',
-              padding: '0.9rem',
-              borderRadius: '25px',
-              fontWeight: 600,
-              fontSize: '1.1rem',
-              border: 'none',
-              width: '100%',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-              opacity: loading ? 0.7 : 1, // Slightly dim the button when loading
-            }}
-            onMouseEnter={(e) => {
-              if (!loading) {
-                e.target.style.transform = 'scale(1.05)';
-                e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+            <div
+              style={{
+                backgroundColor: '#ffffff',
+                padding: '2rem',
+                borderRadius: '15px',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
+                animation: 'fadeIn 0.8s ease-in',
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 600,
+                  color: '#1a2e44',
+                  marginBottom: '1.5rem',
+                }}
+              >
+                Order Summary
+              </h2>
+              <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
+                Total: <span style={{ color: '#2a5298', fontWeight: 600 }}>${total.toFixed(2)}</span>
+              </p>
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={loading}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  background: 'linear-gradient(90deg, #2a5298, #1e3c72)',
+                  color: '#ffffff',
+                  padding: '0.9rem',
+                  borderRadius: '25px',
+                  fontWeight: 600,
+                  fontSize: '1.1rem',
+                  border: 'none',
+                  width: '100%',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  opacity: loading ? 0.7 : 1,
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'scale(1.05)';
+                    e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!loading) {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                  }
+                }}
+              >
+                {loading ? (
+                  <>
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        width: '20px',
+                        height: '20px',
+                        border: '3px solid rgba(255, 255, 255, 0.3)',
+                        borderTop: '3px solid #ffffff',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        marginRight: '8px',
+                      }}
+                    />
+                    Processing...
+                  </>
+                ) : (
+                  'Place Order'
+                )}
+              </button>
+            </div>
+          </div>
+
+          <style>
+            {`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
               }
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) {
-                e.target.style.transform = 'scale(1)';
-                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
-              }
-            }}
-          >
-            {loading ? (
-              <>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: '20px',
-                    height: '20px',
-                    border: '3px solid rgba(255, 255, 255, 0.3)',
-                    borderTop: '3px solid #ffffff',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite',
-                    marginRight: '8px',
-                  }}
-                />
-                Processing...
-              </>
-            ) : (
-              'Place Order'
-            )}
-          </button>
+            `}
+          </style>
         </div>
       </div>
-
-      {/* Add keyframes for the spinning animation */}
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
+      <Footer /> {/* Add Footer at the bottom */}
     </div>
   );
 };
