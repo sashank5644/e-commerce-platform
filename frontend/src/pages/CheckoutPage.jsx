@@ -16,6 +16,7 @@ const CheckoutPage = () => {
     phone: '',
     paymentMethod: 'credit_card',
   });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,13 +31,15 @@ const CheckoutPage = () => {
     }
 
     const shippingAddress = { fullName, addressLine1, city, state, postalCode, phone };
+    setLoading(true); // Set loading to true when submission starts
     try {
       await dispatch(createOrder({ shippingAddress, paymentMethod })).unwrap();
-      //alert('Order placed successfully!');
       navigate('/orders');
     } catch (error) {
       console.error('Order submission error:', error);
       alert('Failed to place order: ' + (error.message || 'Unknown error'));
+    } finally {
+      setLoading(false); // Reset loading state when done
     }
   };
 
@@ -330,8 +333,11 @@ const CheckoutPage = () => {
           <button
             type="submit"
             onClick={handleSubmit}
+            disabled={loading} // Disable button while loading
             style={{
-              display: 'block',
+              display: 'flex', // Use flex to align spinner and text
+              justifyContent: 'center',
+              alignItems: 'center',
               textAlign: 'center',
               background: 'linear-gradient(90deg, #2a5298, #1e3c72)',
               color: '#ffffff',
@@ -341,23 +347,56 @@ const CheckoutPage = () => {
               fontSize: '1.1rem',
               border: 'none',
               width: '100%',
-              cursor: 'pointer',
+              cursor: loading ? 'not-allowed' : 'pointer',
               transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+              opacity: loading ? 0.7 : 1, // Slightly dim the button when loading
             }}
             onMouseEnter={(e) => {
-              e.target.style.transform = 'scale(1.05)';
-              e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+              if (!loading) {
+                e.target.style.transform = 'scale(1.05)';
+                e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+              }
             }}
             onMouseLeave={(e) => {
-              e.target.style.transform = 'scale(1)';
-              e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+              if (!loading) {
+                e.target.style.transform = 'scale(1)';
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+              }
             }}
           >
-            Place Order
+            {loading ? (
+              <>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '20px',
+                    height: '20px',
+                    border: '3px solid rgba(255, 255, 255, 0.3)',
+                    borderTop: '3px solid #ffffff',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    marginRight: '8px',
+                  }}
+                />
+                Processing...
+              </>
+            ) : (
+              'Place Order'
+            )}
           </button>
         </div>
       </div>
+
+      {/* Add keyframes for the spinning animation */}
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
     </div>
   );
 };
