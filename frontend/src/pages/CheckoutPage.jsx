@@ -32,7 +32,7 @@ const CheckoutPage = () => {
     const shippingAddress = { fullName, addressLine1, city, state, postalCode, phone };
     try {
       await dispatch(createOrder({ shippingAddress, paymentMethod })).unwrap();
-      alert('Order placed successfully!');
+      //alert('Order placed successfully!');
       navigate('/orders');
     } catch (error) {
       console.error('Order submission error:', error);
