@@ -12,7 +12,10 @@ const PORT = process.env.PORT || 3006;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://e-commerce-platform-sable.vercel.app'],
+  origin: ['http://localhost:5173', 'https://e-commerce-platform-sable.vercel.app',
+    'https://e-commerce-platform-git-main-sms-projects-1bbf5e72.vercel.app', 
+    'https://e-commerce-platform-h4zgdsm2p-sms-projects-1bbf5e72.vercel.app'
+  ],
   credentials: true,
 }));
 app.use(express.json());
