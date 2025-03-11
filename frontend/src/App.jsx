@@ -19,9 +19,20 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh', // Ensure the container takes at least the full viewport height
+            margin: 0, // Remove default margins
+          }}
+        >
           <Header />
-          <main className="flex-1">
+          <main
+            style={{
+              flex: '1 0 auto', // Grow to fill space but don't shrink
+            }}
+          >
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/product/:id" element={<ProductPage />} />
@@ -32,7 +43,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/category/:categoryName" element={<CategoryPage />} />
               <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<div><h1 className="max-w-7xl mx-auto px-8 py-10 text-3xl font-bold text-gray-800">Admin Dashboard</h1></div>} />
+                <Route index element={<div><h1 style={{ maxWidth: '1280px', margin: '0 auto', padding: '40px 32px', fontSize: '1.875rem', fontWeight: '700', color: '#4a5568' }}>Admin Dashboard</h1></div>} />
                 <Route path="products" element={<ManageProducts />} />
                 <Route path="orders" element={<ViewOrders />} />
               </Route>

@@ -7,7 +7,7 @@ const Footer = () => {
         background: 'linear-gradient(90deg, #1a2e44, #2a3e5a)',
         color: '#ffffff',
         padding: '3rem 0',
-        marginTop: 'auto',
+        marginTop: 'auto', // Push footer to the bottom
         flexShrink: 0, // Prevent footer from shrinking
       }}
     >
