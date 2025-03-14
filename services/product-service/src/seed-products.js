@@ -1,14 +1,4 @@
-// seedProducts.js
-const mongoose = require('mongoose');
-const Product = require('./models/product.model');
-require('dotenv').config();
-
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-const productsToAdd = [
+module.exports = [
   {
     name: "AirPods",
     description: "High-quality sound with noise cancellation and long battery life",
@@ -25,8 +15,6 @@ const productsToAdd = [
     category: "electronics",
     inventory: 30,
   },
-  
-  // Accessories category
   {
     name: "Leather Phone Case",
     description: "Premium leather case with card slots and kickstand",
@@ -43,8 +31,6 @@ const productsToAdd = [
     category: "accessories",
     inventory: 75,
   },
-  
-  // Wearables category
   {
     name: "Fitness Tracker",
     description: "Track steps, heart rate, sleep, and more with 7-day battery life",
@@ -61,8 +47,6 @@ const productsToAdd = [
     category: "wearables",
     inventory: 25,
   },
-  
-  // Audio category
   {
     name: "AirPods Pro",
     description: "Waterproof speaker with 360° sound and 20-hour battery life",
@@ -78,18 +62,53 @@ const productsToAdd = [
     imageUrl: "https://m.media-amazon.com/images/I/61LfMet7s4L._AC_UF894,1000_QL80_.jpg",
     category: "audio",
     inventory: 40,
+  },
+  {
+    name: "Mag-Safe Wireless Charger",
+    description: "Fast wireless charging pad compatible with iPhone and Android devices",
+    price: 39.99,
+    imageUrl: "https://m.media-amazon.com/images/I/51ZTUXXpT1L._AC_UF894,1000_QL80_.jpg",
+    category: "accessories",
+    inventory: 80
+  },
+  {
+    name: "Bluetooth Mechanical Keyboard",
+    description: "Compact wireless mechanical keyboard with RGB backlighting",
+    price: 99.99,
+    imageUrl: "https://m.media-amazon.com/images/I/71ZRus2YNcL.jpg",
+    category: "electronics",
+    inventory: 35
+  },
+  {
+    name: "Portable Power Bank",
+    description: "10,000mAh power bank with fast charging and dual USB ports",
+    price: 45.99,
+    imageUrl: "https://m.media-amazon.com/images/I/610Vz+2eDmL._AC_UF894,1000_QL80_.jpg",
+    category: "accessories",
+    inventory: 90
+  },
+  {
+    name: "Sony Noise-Canceling Headphones",
+    description: "Over-ear headphones with active noise cancellation and deep bass",
+    price: 179.99,
+    imageUrl: "https://m.media-amazon.com/images/I/41tp0JPPlmL._AC_UF894,1000_QL80_.jpg",
+    category: "audio",
+    inventory: 50
+  },
+  {
+    name: "Apple ipad Pro M4",
+    description: "WiFi-enabled LED smart bulb with voice control and app integration",
+    price: 24.99,
+    imageUrl: "https://m.media-amazon.com/images/I/714-7INRdwL._AC_UF1000,1000_QL80_.jpg",
+    category: "electronics",
+    inventory: 100
+  },
+  {
+    name: "Samsung 4K TV",
+    description: "Streaming stick with 4K HDR, Dolby Vision, and voice remote",
+    price: 1059.99,
+    imageUrl: "https://m.media-amazon.com/images/I/91snjIt0nUL.jpg",
+    category: "electronics",
+    inventory: 70
   }
 ];
-
-const seedProducts = async () => {
-  try {
-    await Product.insertMany(productsToAdd);
-    console.log('Products added successfully');
-  } catch (error) {
-    console.error('Error adding products:', error);
-  } finally {
-    mongoose.disconnect();
-  }
-};
-
-seedProducts();
